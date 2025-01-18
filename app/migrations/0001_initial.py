@@ -65,6 +65,7 @@ class Migration(migrations.Migration):
                 ("title", models.CharField(max_length=100)),
                 ("opening_time", models.TimeField()),
                 ("closing_time", models.TimeField()),
+                ("house", models.CharField(max_length=20)),  # Добавлен дом
                 (
                     "city",
                     models.ForeignKey(
