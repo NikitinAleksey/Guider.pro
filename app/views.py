@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.db.models import Q, F
 from django.shortcuts import render
-import logging
+from django.db import IntegrityError
 
 from django.utils import timezone
 from rest_framework.views import APIView
@@ -60,6 +60,10 @@ class ShopView(APIView):
         closing_time = request.data.get('closing_time')
         city_id = request.data.get('city_id')
         street_id = request.data.get('street_id')
+        house = request.data.get('house')
+
+        if not all([title, opening_time, closing_time, city_id, street_id, house]):
+            return Response({"error": "All fields are required"}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             city = City.objects.get(id=city_id)
@@ -73,12 +77,17 @@ class ShopView(APIView):
             return Response({"error": "Street does not belong to the specified city"},
                             status=status.HTTP_400_BAD_REQUEST)
 
+        if Shop.objects.filter(title=title, city=city, street=street).exists():
+            return Response({"error": "Shop with the same title already exists in this city and street"},
+                            status=status.HTTP_400_BAD_REQUEST)
+
         shop = Shop.objects.create(
             title=title,
             opening_time=opening_time,
             closing_time=closing_time,
             city=city,
-            street=street
+            street=street,
+            house=house
         )
 
         return Response({"id": shop.id}, status=status.HTTP_201_CREATED)

@@ -20,4 +20,4 @@ class ShopSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Shop
-        fields = ['id', 'title', 'city', 'street', 'opening_time', 'closing_time']
+        fields = ['id', 'title', 'city', 'street', 'house', 'opening_time', 'closing_time']

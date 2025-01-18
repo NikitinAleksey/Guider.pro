@@ -27,6 +27,7 @@ class Shop(models.Model):
     title = models.CharField(max_length=100)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     street = models.ForeignKey(Street, on_delete=models.CASCADE)
+    house = models.CharField(max_length=20,  null=True, blank=True)
     opening_time = models.TimeField()
     closing_time = models.TimeField()
 
@@ -35,4 +36,4 @@ class Shop(models.Model):
         unique_together = ('title', 'city', 'street')
 
     def __str__(self):
-        return f"{self.title} ({self.street.title}, {self.city.title})"
+        return f"{self.title} ({self.city.title}, {self.street.title}, {self.house})"
