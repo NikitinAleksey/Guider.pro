@@ -18,15 +18,12 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Инициализация окружения
 env = environ.Env(
-    DEBUG=(bool, False)  # Значение по умолчанию для DEBUG — False
+    DEBUG=(bool, False)
 )
 
-# Чтение файла .env
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-# Использование переменных окружения
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
